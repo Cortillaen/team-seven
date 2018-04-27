@@ -1,11 +1,12 @@
 <template>
-<div id="app-header">
-<h1 class="top-header">News API Application</h1>
-<router-link :to="{ name: 'HelloWorld' }">Home</router-link>
-<router-link to="/about">About</router-link>
-<router-view/>
-</div>
-
+  <div id="app-header">
+    <h1 class="top-header">News API Application</h1>
+    <router-link to="/">Home</router-link>
+    <router-link to="/analysis">Analysis</router-link>
+    <router-link to="/wordcloud">Word Cloud</router-link>
+    <router-link to="/about">About</router-link>
+    <router-view/>
+  </div>
 </template>
 
 <script>

@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  router: router,
   components: { App },
   template: '<App/>',
   methods: {
@@ -17,4 +17,4 @@ new Vue({
       console.log(this.appUrl)
     }
   }
-})
+}).$mount('div')
