@@ -11,5 +11,10 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  methods: {
+    findArticle: function () {
+      console.log(this.appUrl)
+    }
+  }
 })
