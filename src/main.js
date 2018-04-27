@@ -9,7 +9,12 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  router: router,
   components: { App },
-  template: '<App/>'
-})
+  template: '<App/>',
+  methods: {
+    findArticle: function () {
+      console.log(this.appUrl)
+    }
+  }
+}).$mount('div')
