@@ -1,7 +1,6 @@
 <template>
   <div>
-    <input v-model="appUrl" id="UrlInput" type="Text" placeholder="Enter Url Here"/>
-    <button v-on:click="findArticle" id="UrlButton">Submit</button>
+    <h1>Word Cloud</h1>
   </div>
 </template>
 
@@ -9,12 +8,7 @@
 export default {
   name: 'HelloWorld',
   data () {
-    return {
-      appUrl: '/',
-      findArticle: function (evt) {
-        console.log('clicked')
-      }
-    }
+    return {}
   }
 }
 </script>
