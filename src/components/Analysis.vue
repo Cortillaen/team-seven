@@ -1,23 +1,31 @@
 <template>
   <div>
     <h1>Analysis</h1>
-    <h2>The thing: {{theThing}}</h2>
+    <h2>{{ theThing }}</h2>
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    findArticle (evt) {
-      let value = document.getElementById('UrlInput').value
-      return value
+  props: ['theThing'],
+  updated:
+    function () {
+      var request = require('request')
+      let urlTarget = this.theThing
+      console.log(this.theThing)
+      request.get({
+        url: 'http://eventregistry.org/json/articleMapper',
+        qs: {
+          'articleUrl': urlTarget,
+          'includeAllVersions': true,
+          'deep': true
+        }
+      }, function (response, body) {
+        console.log(body)
+      })
     }
-  },
-  data () {
-  }
 }
 </script>
-
 <style>
   #UrlInput {
     width: 80%;

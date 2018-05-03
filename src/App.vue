@@ -17,14 +17,12 @@ export default {
   components: {
     Analysis
   },
-  props: ['url'],
+  props: ['theThing'],
   methods: {
     findArticle (evt) {
-      let newUrl = document.getElementById('UrlInput').value
-      return {
-        method: 'change_url',
-        url: newUrl
-      }
+      let self = this
+      let url = document.getElementById('UrlInput').value
+      self.$router.push({name: 'Analysis', params: {theThing: url}})
     }
   }
 }
