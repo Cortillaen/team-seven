@@ -12,8 +12,13 @@ new Vue({
   router: router,
   components: { App },
   template: '<App/>',
+  data: function () {
+    return {
+      url: this.url
+    }
+  },
   methods: {
-    findArticle: function () {
+    change_url: function () {
       console.log(this.appUrl)
     }
   }

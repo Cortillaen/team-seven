@@ -1,14 +1,19 @@
 <template>
   <div>
     <h1>Analysis</h1>
+    <h2>The thing: {{theThing}}</h2>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  methods: {
+    findArticle (evt) {
+      let value = document.getElementById('UrlInput').value
+      return value
+    }
+  },
   data () {
-    return {}
   }
 }
 </script>
