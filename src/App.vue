@@ -1,7 +1,7 @@
 <template>
   <div id="app-header">
     <h1 class="top-header">News API Application</h1>
-    <router-link :to="{ path: 'Analysis', query: { url: 'value' } }">Analysis</router-link>
+    <router-link :to="{ path: '/analysis', query: { articleData: 'articleData' } }">Analysis</router-link>
     <router-link to="/wordcloud">Word Cloud</router-link>
     <router-link to="/about">About</router-link>
     <input id="UrlInput" type="Text" placeholder="Enter Url Here" />
@@ -13,16 +13,64 @@
 <script>
 import Analysis from './components/Analysis.vue'
 
+function analyze (text) {
+  let words = text.split(/[^a-zA-Z0-9']/);
+  let analysis = {};
+  analysis.wordCounts = [];
+  analysis.uniqueWords = 0;
+  analysis.totalWords = words.length;
+  for (var key in words) {
+    if (words[key].length > 4) {
+      let tempIndex = analysis.wordCounts.findIndex((element) => { // get index of current word, -1 if new
+        return element[0] === words[key];
+      });
+      if (tempIndex !== -1) { // if not new, increment counter
+        analysis.wordCounts[tempIndex][1]++;
+      } else { // otherwise add to list with counter of 1
+        analysis.wordCounts.push([words[key], 1]);
+        analysis.uniqueWords++;
+      }
+    } else if (words[key] === '') {
+      analysis.totalWords--;
+    }
+  }
+  analysis.totalChars = text.length;
+  return analysis;
+}
+
 export default {
   components: {
     Analysis
   },
-  props: ['theThing'],
+  data: function () {
+    return {
+      articleData: ''
+    }
+  },
+  // props: ['articleData'],
   methods: {
     findArticle (evt) {
       let self = this
+      // let articleData;
       let url = document.getElementById('UrlInput').value
-      self.$router.push({name: 'Analysis', params: {theThing: url}})
+
+      var request = require('request')
+      request.get({
+        url: 'http://eventregistry.org/json/articleMapper',
+        qs: {
+          'articleUrl': url,
+          'includeAllVersions': false,
+          'deep': false
+        }
+      }, function (response, body) {
+        let articleID = JSON.parse(body.toJSON()['body'])[url];
+        console.log(articleID)
+        // USE ARTICLE ID TO GET ARTICLE TEXT
+        let articleText = 'these are some words';
+        this.articleData = analyze(articleText);
+        console.log(this.articleData);
+        self.$router.push({name: 'Analysis', params: {articleData: this.articleData}})
+      });
     }
   }
 }

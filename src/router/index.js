@@ -9,15 +9,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/analysis/:theThing',
+      path: '/analysis/:articleData',
       name: 'Analysis',
-      props: true,
-      component: Analysis
+      component: Analysis,
+      props: true
     },
     {
-      path: '/wordcloud',
+      path: '/wordcloud/:articleData',
       name: 'Word Cloud',
-      component: WordCloud
+      component: WordCloud,
+      props: true
     },
     {
       path: '/about',
