@@ -8,7 +8,7 @@
 <script>
 export default {
   props: ['articleData'],
-  updated:
+  mounted:
     function () {
       console.log('From analysis: ', this.articleData);
     }

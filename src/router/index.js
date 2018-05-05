@@ -9,6 +9,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      name: 'Home'
+    },
+    {
       path: '/analysis/:articleData',
       name: 'Analysis',
       component: Analysis,
@@ -16,7 +20,7 @@ export default new Router({
     },
     {
       path: '/wordcloud/:articleData',
-      name: 'Word Cloud',
+      name: 'WordCloud',
       component: WordCloud,
       props: true
     },

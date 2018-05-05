@@ -1,9 +1,11 @@
 <template>
   <div id="app-header">
     <h1 class="top-header">News API Application</h1>
-    <router-link :to="{ path: '/analysis', query: { articleData: 'articleData' } }">Analysis</router-link>
-    <router-link to="/wordcloud">Word Cloud</router-link>
-    <router-link to="/about">About</router-link>
+    <div id="nav">
+      <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString } }">Analysis</router-link>
+      <router-link :to="{ name: 'WordCloud', params: { 'articleData': dataString } }">Word Cloud</router-link>
+      <router-link :to="{ name: 'About' }">About</router-link>
+    </div>
     <input id="UrlInput" type="Text" placeholder="Enter Url Here" />
     <button v-on:click="findArticle" id="UrlButton">Submit</button>
     <router-view/>
@@ -44,15 +46,18 @@ export default {
   },
   data: function () {
     return {
-      articleData: ''
+      articleData: '',
+      dataString: '',
+      analysisString: '',
+      wordcloudString: ''
     }
   },
-  // props: ['articleData'],
+  // props: ['dataString'],
   methods: {
     findArticle (evt) {
       let self = this
-      // let articleData;
       let url = document.getElementById('UrlInput').value
+      document.getElementById('UrlButton').innerText = 'Working.  Please wait...';
 
       var request = require('request')
       request.get({
@@ -60,29 +65,40 @@ export default {
         qs: {
           'articleUrl': url,
           'includeAllVersions': false,
-          'deep': false
+          'deep': false,
+          'apiKey': '6969dae1-7e3c-48df-87e2-9bc69d0fdd5d'
         }
       }, function (response, body) {
         let articleID = JSON.parse(body.toJSON()['body'])[url];
-        console.log(articleID)
-
         request.get({
           url: ('http://eventregistry.org/json/article?action=getArticle&articleUri=' + articleID + '&resultType=info&infoArticleBodyLen=-1&callback=JSON_CALLBACK'),
           qs: {
             'articleUrl': url,
             'includeAllVersions': false,
-            'deep': false
+            'deep': false,
+            'apiKey': '6969dae1-7e3c-48df-87e2-9bc69d0fdd5d'
           }
         }, (response, body) => {
           // USE ARTICLE ID TO GET ARTICLE TEXT
+          document.getElementById('UrlButton').innerText = 'Submit';
           let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
-          console.log(articleText);
-          this.articleData = analyze(articleText);
-          console.log(this.articleData);
+          self.articleData = analyze(articleText);
+          console.log(self.articleData);
+          self.dataString = JSON.stringify(self.articleData);
+          self.wordcloudString = '/wordcloud/' + JSON.stringify(self.articleData);
+          self.analysisString = '/analysis/' + JSON.stringify(self.articleData);
+          // console.log('dataString: ' + self.dataString);
+          // console.log(self);
+          self.$router.push({name: 'Analysis', params: {articleData: self.dataString}});
         });
-
-        self.$router.push({name: 'Analysis', params: {articleData: this.articleData}})
+      }, function (response, body) {
+        console.log('ERROR');
+        console.log(response);
+        console.log(body);
       });
+    },
+    test () {
+      console.log('Test success');
     }
   }
 }
