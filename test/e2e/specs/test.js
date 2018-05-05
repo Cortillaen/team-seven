@@ -11,9 +11,18 @@ module.exports = {
     browser
       .url(devServer)
       .waitForElementVisible('#app', 5000)
-      .assert.elementPresent('.hello')
-      .assert.containsText('h1', 'Welcome to Your Vue.js App')
-      .assert.elementCount('img', 1)
+      .assert.elementPresent('.app-header')
+      .assert.containsText('h1', 'News API Application')
+      .assert.elementCount('router-link', 3)
+      .assert.elementPresent('.UrlInput')
+      .assert.elementPresent('.UrlButton')
+      // insert news site url into search bar
+      // click submit button
+      // verify Analysis page view
+      // click WordCloud router-link
+      // verfiy WordCloud page view
+      // click About router-link
+      //verify About page view
       .end()
   }
 }
