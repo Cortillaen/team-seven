@@ -65,10 +65,22 @@ export default {
       }, function (response, body) {
         let articleID = JSON.parse(body.toJSON()['body'])[url];
         console.log(articleID)
-        // USE ARTICLE ID TO GET ARTICLE TEXT
-        let articleText = 'these are some words';
-        this.articleData = analyze(articleText);
-        console.log(this.articleData);
+
+        request.get({
+          url: ('http://eventregistry.org/json/article?action=getArticle&articleUri=' + articleID + '&resultType=info&infoArticleBodyLen=-1&callback=JSON_CALLBACK'),
+          qs: {
+            'articleUrl': url,
+            'includeAllVersions': false,
+            'deep': false
+          }
+        }, (response, body) => {
+          // USE ARTICLE ID TO GET ARTICLE TEXT
+          let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
+          console.log(articleText);
+          this.articleData = analyze(articleText);
+          console.log(this.articleData);
+        });
+
         self.$router.push({name: 'Analysis', params: {articleData: this.articleData}})
       });
     }
