@@ -16,18 +16,23 @@ export default {
   }
 }
 </script>
-
 <style>
-  #UrlInput {
-    width: 80%;
-    margin: auto;
-    margin-top: 5em;
-    float: both;
-  }
-  #UrlButton {
-    float: both;
-    width: 80%;
-    margin: auto;
-    margin-top: 5em;
-  }
-</style>
+#app-header {
+font-size: 24px;
+font-style: normal;
+font-variant: normal;
+font-weight: 500;
+line-height: 26.4px;
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+text-align: center;
+color: #111;
+overflow: hidden;
+padding: 2em;
+height: 100%;
+background-color: #0cd;
+}
+#app-body {
+background-color: #fff;
+padding: 2em;
+}</style>

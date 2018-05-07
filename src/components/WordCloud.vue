@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Word Cloud</h1>
+    <h3>{{ articleTitle }}</h3>
     <canvas></canvas>
   </div>
 </template>
@@ -9,7 +9,7 @@
 const wordcloud = require('wordcloud');
 
 export default {
-  props: ['articleData'],
+  props: ['articleData', 'articleTitle'],
   methods: {
     makeWordCloud (wordList) {
       let canvas = document.getElementsByTagName('canvas')[0];
@@ -33,18 +33,6 @@ export default {
 </script>
 
 <style>
-  #UrlInput {
-    width: 80%;
-    margin: auto;
-    margin-top: 5em;
-    float: both;
-  }
-  #UrlButton {
-    float: both;
-    width: 80%;
-    margin: auto;
-    margin-top: 5em;
-  }
   canvas {
     height: 600px;
     width: 800px;

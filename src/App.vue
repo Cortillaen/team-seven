@@ -1,14 +1,16 @@
 <template>
   <div id="app-header">
     <h1 class="top-header">News API Application</h1>
-    <div id="nav">
-      <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString } }">Analysis</router-link>
-      <router-link :to="{ name: 'WordCloud', params: { 'articleData': dataString } }">Word Cloud</router-link>
+    <div id="app-nav">
+      <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString, 'articleTitle': titleString} }">Analysis</router-link>
+      <router-link :to="{ name: 'WordCloud', params: { 'articleData': dataString, 'articleTitle': titleString } }">Word Cloud</router-link>
       <router-link :to="{ name: 'About' }">About</router-link>
     </div>
-    <input id="UrlInput" type="Text" placeholder="Enter Url Here" />
-    <button v-on:click="findArticle" id="UrlButton">Submit</button>
-    <router-view/>
+    <div id="app-body">
+      <input id="UrlInput" type="Text" placeholder="Enter Url Here" />
+      <button v-on:click="findArticle" id="UrlButton">Submit</button>
+      <router-view/>
+    </div>
   </div>
 </template>
 
@@ -47,12 +49,14 @@ export default {
   data: function () {
     return {
       articleData: '',
+      articleTitle: '',
       dataString: '',
+      titleString: '',
       analysisString: '',
       wordcloudString: ''
     }
   },
-  // props: ['dataString'],
+  // props: ['dataString', 'articleTitle'],
   methods: {
     findArticle (evt) {
       let self = this
@@ -82,14 +86,15 @@ export default {
           // USE ARTICLE ID TO GET ARTICLE TEXT
           document.getElementById('UrlButton').innerText = 'Submit';
           let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
+          self.titleString = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['title'];
+          console.log(typeof self.titleString);
           self.articleData = analyze(articleText);
-          console.log(self.articleData);
           self.dataString = JSON.stringify(self.articleData);
           self.wordcloudString = '/wordcloud/' + JSON.stringify(self.articleData);
           self.analysisString = '/analysis/' + JSON.stringify(self.articleData);
           // console.log('dataString: ' + self.dataString);
           // console.log(self);
-          self.$router.push({name: 'Analysis', params: {articleData: self.dataString}});
+          self.$router.push({name: 'Analysis', params: {articleData: self.dataString, articleTitle: self.titleString}});
         });
       }, function (response, body) {
         console.log('ERROR');
@@ -116,23 +121,38 @@ line-height: 26.4px;
 text-align: center;
 color: #111;
 overflow: hidden;
-padding-top: 2em;
+padding: 2em;
+height: 100%;
+background-color: #0cd;
+}
+#app-nav {
+padding: 1em;
+margin: auto;
+}
+#app-body {
+background-color: #fff;
+padding: 2em;
+border-radius: 20px;
 }
 a {
 text-decoration: none;
 padding: 1em;
+margin: auto;
 color: #111;
+background: #8dc; 
 }
-  #UrlInput {
-    width: 80%;
-    margin: auto;
-    margin-top: 5em;
-    float: both;
-  }
-  #UrlButton {
-    float: both;
-    width: 80%;
-    margin: auto;
-    margin-top: 5em;
-  }
+#UrlInput {
+  width: 80%;
+  margin: auto;
+  margin-top: 5em;
+  float: both;
+}
+#UrlButton {
+  float: both;
+  margin: auto;
+  margin: 2em;
+  padding: 0.5em;
+  border-radius: 10px;
+  background: #8dc;
+}
 </style>
