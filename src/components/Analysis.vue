@@ -1,28 +1,40 @@
 <template>
   <div>
     <h1>Analysis</h1>
-    <h2>{{ theThing }}</h2>
+    <!-- <h2>{{ articleData }}</h2> -->
+    <ul id="analysisData"></ul>
+    <ul id="wordCounts"></ul>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['theThing'],
-  updated:
+  props: ['articleData'],
+  mounted:
     function () {
-      var request = require('request')
-      let urlTarget = this.theThing
-      console.log(this.theThing)
-      request.get({
-        url: 'http://eventregistry.org/json/articleMapper',
-        qs: {
-          'articleUrl': urlTarget,
-          'includeAllVersions': true,
-          'deep': true
-        }
-      }, function (response, body) {
-        console.log(body)
-      })
+      console.log('From analysis: ', this.articleData);
+      let dataObj = JSON.parse(this.articleData);
+      let ul = document.getElementById('analysisData');
+
+      // Analysis synopsis
+      let li = document.createElement('li');
+      li.innerText = 'Total Words: ' + dataObj.totalWords;
+      ul.appendChild(li);
+      li = document.createElement('li');
+      li.innerText = 'Unique Words: ' + dataObj.uniqueWords;
+      ul.appendChild(li);
+      li = document.createElement('li');
+      li.innerText = 'Total Characters: ' + dataObj.totalChars;
+      ul.appendChild(li);
+
+      // Analysis word counts
+      ul = document.getElementById('wordCounts');
+      let words = dataObj.wordCounts;
+      for (var index in words) {
+        li = document.createElement('li');
+        li.innerText = words[index][0] + ': ' + words[index][1];
+        ul.appendChild(li);
+      }
     }
 }
 </script>
