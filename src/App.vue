@@ -123,7 +123,7 @@ color: #111;
 overflow: hidden;
 padding: 2em;
 height: 100%;
-background-color: #0cd;
+background-color: #92a8d1;
 }
 #app-nav {
 padding: 1em;
@@ -146,7 +146,7 @@ text-decoration: none;
 padding: 0.5em;
 margin: auto;
 color: #111;
-background: #8dc;
+background: #80ced6;
 border-radius: 10px;
 }
 a:hover {
@@ -167,6 +167,6 @@ color: #fff;
   margin: 2em;
   padding: 0.5em;
   border-radius: 10px;
-  background: #8dc;
+  background: #80ced6;
 }
 </style>
