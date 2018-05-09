@@ -18,6 +18,8 @@
 import Analysis from './components/Analysis.vue'
 
 function analyze (text) {
+  console.log(text);
+  let sentences = text.split(/[.?!]\s/g);
   let words = text.split(/[^a-zA-Z0-9']/);
   let analysis = {};
   analysis.wordCounts = [];
@@ -39,6 +41,8 @@ function analyze (text) {
     }
   }
   analysis.totalChars = text.length;
+  console.log(sentences[0])
+  analysis.sentenceCount = sentences.length;
   return analysis;
 }
 

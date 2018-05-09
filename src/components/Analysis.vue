@@ -8,6 +8,13 @@
 <script>
 const BarChart = require('barchart');
 
+/*
+  Input:  Takes number of words, characters, and sentences as parameters.
+  Output: Returns approximate representation of US grade-level needed to
+          comprehend the text.
+*/
+const automatedReadability = require('automated-readability');
+
 export default {
   props: ['articleData', 'articleTitle'],
   mounted:
@@ -44,6 +51,12 @@ export default {
         {'name': 'Duration Index', 'value': durationIndex}
       ]]
       );
+
+      console.log(automatedReadability({
+        sentence: returnedCounts['sentenceCount'],
+        word: returnedCounts['totalWords'],
+        character: returnedCounts['totalChars']
+      }));
     },
   updated:
     function () {
