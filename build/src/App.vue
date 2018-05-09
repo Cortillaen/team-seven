@@ -1,6 +1,6 @@
 <template>
   <div id="app-header">
-    <h1 id="top-header">News API Application</h1>
+    <h1 class="top-header">News API Application</h1>
     <div id="app-nav">
       <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString, 'articleTitle': titleString} }">Analysis</router-link>
       <router-link :to="{ name: 'WordCloud', params: { 'articleData': dataString, 'articleTitle': titleString } }">Word Cloud</router-link>
@@ -129,37 +129,23 @@ background-color: #0cd;
 padding: 1em;
 margin: auto;
 }
-#top-header {
-font-size: 72px;
-font-weight: bold;
-color: #fff;
-}
 #app-body {
 background-color: #fff;
 padding: 2em;
 border-radius: 20px;
-margin-bottom: 40vh;
-overflow: hidden;
 }
 a {
 text-decoration: none;
-padding: 0.5em;
+padding: 1em;
 margin: auto;
 color: #111;
-background: #8dc;
-border-radius: 10px;
-}
-a:hover {
-color: #fff;
+background: #8dc; 
 }
 #UrlInput {
   width: 80%;
   margin: auto;
   margin-top: 5em;
   float: both;
-}
-#UrlButton:hover {
-color: #fff;
 }
 #UrlButton {
   float: both;
