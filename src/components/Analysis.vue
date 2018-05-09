@@ -27,7 +27,12 @@ export default {
       ul.appendChild(li);
 
       // Analysis word counts
-
+      let words = dataObj.wordCounts;
+      for (var index in words) {
+        li = document.createElement('li');
+        li.innerText = words[index][0] + ': ' + words[index][1];
+        ul.appendChild(li);
+      }
     }
 }
 </script>
