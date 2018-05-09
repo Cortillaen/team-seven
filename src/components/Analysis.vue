@@ -3,6 +3,7 @@
     <h1>Analysis</h1>
     <!-- <h2>{{ articleData }}</h2> -->
     <ul id="analysisData"></ul>
+    <ul id="wordCounts"></ul>
   </div>
 </template>
 
@@ -27,6 +28,7 @@ export default {
       ul.appendChild(li);
 
       // Analysis word counts
+      ul = document.getElementById('wordCounts');
       let words = dataObj.wordCounts;
       for (var index in words) {
         li = document.createElement('li');
