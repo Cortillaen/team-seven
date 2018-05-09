@@ -2,8 +2,10 @@
   <div>
     <h1>Analysis</h1>
     <!-- <h2>{{ articleData }}</h2> -->
-    <ul id="analysisData"></ul>
-    <ul id="wordCounts"></ul>
+    <div id="analysis">
+      <ul id="analysisData"></ul>
+      <ul id="wordCounts"></ul>
+    </div>
   </div>
 </template>
 
@@ -45,10 +47,42 @@ export default {
     margin-top: 5em;
     float: both;
   }
+
   #UrlButton {
     float: both;
     width: 80%;
     margin: auto;
     margin-top: 5em;
+  }
+
+  #analysisData {
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 31.5px;
+  }
+
+  #wordCounts {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 21.5px;
+  }
+
+  ul {
+    list-style-position: inside;
+    list-style-type: none;
+    font-style: normal;
+    font-variant: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #111;
+    padding: 15px 15px 0px 15px;
+    margin: 0px;
+  }
+
+  #analysis {
+    margin: auto;
+    width: 50%;
+    border: 5px solid grey;
   }
 </style>
