@@ -18,14 +18,17 @@ import Analysis from './components/Analysis.vue'
 function analyze (text) {
   let words = text.split(/[^a-zA-Z0-9']/);
   let analysis = {};
+
   analysis.wordCounts = [];
   analysis.uniqueWords = 0;
   analysis.totalWords = words.length;
+
   for (var key in words) {
     if (words[key].length > 4) {
       let tempIndex = analysis.wordCounts.findIndex((element) => { // get index of current word, -1 if new
         return element[0] === words[key];
       });
+
       if (tempIndex !== -1) { // if not new, increment counter
         analysis.wordCounts[tempIndex][1]++;
       } else { // otherwise add to list with counter of 1
@@ -90,6 +93,7 @@ export default {
           // console.log('dataString: ' + self.dataString);
           // console.log(self);
           self.$router.push({name: 'Analysis', params: {articleData: self.dataString}});
+          // self.$router.push({name: 'Analysis', params: {articleData: self.articleData}});
         });
       }, function (response, body) {
         console.log('ERROR');
@@ -105,30 +109,33 @@ export default {
 </script>
 
 <style>
-#app-header {
-font-size: 24px;
-font-style: normal;
-font-variant: normal;
-font-weight: 500;
-line-height: 26.4px;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-align: center;
-color: #111;
-overflow: hidden;
-padding-top: 2em;
-}
-a {
-text-decoration: none;
-padding: 1em;
-color: #111;
-}
+  #app-header {
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #111;
+    overflow: hidden;
+    padding-top: 2em;
+  }
+
+  a {
+    text-decoration: none;
+    padding: 1em;
+    color: #111;
+  }
+
   #UrlInput {
     width: 80%;
     margin: auto;
     margin-top: 5em;
     float: both;
   }
+
   #UrlButton {
     float: both;
     width: 80%;
