@@ -16,6 +16,9 @@
   "dependencies": {
     "automated-readability": "^1.0.2",
     "barchart": "^0.6.1",
+    "coleman-liau": "^1.0.2",
+    "dale-chall": "^1.0.2",
+    "dale-chall-formula": "^1.0.2",
     "eventregistry": "^1.0.91",
     "underscore": "^1.9.0",
     "vue": "^2.5.2",

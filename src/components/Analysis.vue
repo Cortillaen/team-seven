@@ -6,14 +6,11 @@
 </template>
 
 <script>
-const BarChart = require('barchart');
 
-/*
-  Input:  Takes number of words, characters, and sentences as parameters.
-  Output: Returns approximate representation of US grade-level needed to
-          comprehend the text.
-*/
+const BarChart = require('barchart');
 const automatedReadability = require('automated-readability');
+const colemanLiau = require('coleman-liau');
+const daleChallFormula = require('dale-chall-formula');
 
 export default {
   props: ['articleData', 'articleTitle'],
@@ -52,11 +49,35 @@ export default {
       ]]
       );
 
+      /*
+        Input:  Takes number of words, characters, and sentences as parameters.
+        Output: Returns approximate representation of US grade-level needed to
+                comprehend the text.
+      */
+      console.log(returnedCounts['difficultWords']);
+      console.log(returnedCounts['totalValuableWords'])
+      console.log(returnedCounts['totalValuableChars'])
+
       console.log(automatedReadability({
         sentence: returnedCounts['sentenceCount'],
-        word: returnedCounts['totalWords'],
-        character: returnedCounts['totalChars']
+        word: returnedCounts['totalValuableWords'],
+        character: returnedCounts['totalValuableChars']
       }));
+
+      console.log(colemanLiau({
+        sentence: returnedCounts['sentenceCount'],
+        word: returnedCounts['totalValuableWords'],
+        letter: returnedCounts['totalValuableChars']
+      }));
+
+      console.log(daleChallFormula({
+        word: returnedCounts['totalValuableWords'],
+        sentence: returnedCounts['sentenceCount'],
+        difficultWord: returnedCounts['difficultWords']
+      }));
+
+      //console.log(daleChallFormula.gradeLevel(daleChallFormula(30, 2, 6)));
+
     },
   updated:
     function () {

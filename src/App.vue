@@ -17,9 +17,17 @@
 <script>
 import Analysis from './components/Analysis.vue'
 
+const daleChall = require('dale-chall');
+
 function analyze (text) {
-  console.log(text);
-  let sentences = text.split(/[.?!]\s/g);
+  let sentences = text.split(/[.?!]\s/g); //Split on punctuation
+  let valuableChars = text.replace(/\W+/g, ""); //Only alphanumeric characters
+
+  let valuableWords = text.trim() //Remove whitespace at start and end.
+  valuableWords = valuableWords.toLowerCase(); //Lowercase all words
+  valuableWords = valuableWords.replace(/[ ]{2,}/gi," "); //Convert multiple whitespace values to a single space
+  valuableWords = valuableWords.split(' '); //Split on whitespace
+
   let words = text.split(/[^a-zA-Z0-9']/);
   let analysis = {};
   analysis.wordCounts = [];
@@ -40,9 +48,19 @@ function analyze (text) {
       analysis.totalWords--;
     }
   }
+
+  //Get number of 'difficult' words
+  analysis.difficultWords = 0;
+  for (var i = 0; i < valuableWords.length; i++) {
+    if (daleChall.includes(valuableWords[i]) == false) {
+      analysis.difficultWords++;
+    }
+  }
+
   analysis.totalChars = text.length;
-  console.log(sentences[0])
+  analysis.totalValuableChars = valuableChars.length;
   analysis.sentenceCount = sentences.length;
+  analysis.totalValuableWords = valuableWords.length;
   return analysis;
 }
 
