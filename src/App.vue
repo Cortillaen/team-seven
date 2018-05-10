@@ -18,6 +18,7 @@
 import Analysis from './components/Analysis.vue'
 
 const daleChall = require('dale-chall');
+const syllable = require('syllable');
 
 function analyze (text) {
   let sentences = text.split(/[.?!]\s/g); //Split on punctuation
@@ -49,9 +50,20 @@ function analyze (text) {
     }
   }
 
-  //Get number of 'difficult' words
+  /*
+  Get number of 'difficult' words for dale-chall daleChall
+  Get syllable count for flesch–kincaid formula
+  Get count of words with >= 3 syllables for smog formula
+  */
   analysis.difficultWords = 0;
+  analysis.syllableCount = 0;
+  analysis.polySyllableCount = 0;
   for (var i = 0; i < valuableWords.length; i++) {
+    var numSyllables = syllable(valuableWords[i]);
+    analysis.syllableCount += numSyllables;
+    if (numSyllables >= 3) {
+      analysis.polySyllableCount++
+    }
     if (daleChall.includes(valuableWords[i]) == false) {
       analysis.difficultWords++;
     }

@@ -11,6 +11,8 @@ const BarChart = require('barchart');
 const automatedReadability = require('automated-readability');
 const colemanLiau = require('coleman-liau');
 const daleChallFormula = require('dale-chall-formula');
+const fleschKincaid = require('flesch-kincaid');
+const smogFormula = require('smog-formula');
 
 export default {
   props: ['articleData', 'articleTitle'],
@@ -49,34 +51,78 @@ export default {
       ]]
       );
 
-      /*
-        Input:  Takes number of words, characters, and sentences as parameters.
-        Output: Returns approximate representation of US grade-level needed to
-                comprehend the text.
-      */
-      console.log(returnedCounts['difficultWords']);
-      console.log(returnedCounts['totalValuableWords'])
-      console.log(returnedCounts['totalValuableChars'])
-
-      console.log(automatedReadability({
+      //Find automated-readability grade level
+      let ariScore = automatedReadability({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
         character: returnedCounts['totalValuableChars']
-      }));
+      });
+      ariScore = Math.ceil(ariScore); //Formula rounds up to nearest int
+      if (ariScore >= 16) {
+        ariScore = 16;
+      }
 
-      console.log(colemanLiau({
+      //Find coleman-liau grade level
+      let clScore = colemanLiau({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
         letter: returnedCounts['totalValuableChars']
-      }));
+      });
+      if (clScore >= 16) {
+        clScore = 16;
+      }
 
-      console.log(daleChallFormula({
+      //Find dale-chall grade level
+      let dcScore = daleChallFormula({
         word: returnedCounts['totalValuableWords'],
         sentence: returnedCounts['sentenceCount'],
         difficultWord: returnedCounts['difficultWords']
-      }));
+      });
+      dcScore = daleChallFormula.gradeLevel(dcScore);
+      if (dcScore[1] == Infinity) {
+        dcScore = dcScore[0];
+      }
+      else dcScore = dcScore[1];
 
-      //console.log(daleChallFormula.gradeLevel(daleChallFormula(30, 2, 6)));
+      //Find flecsh-kincaid grade level
+      let fkScore = fleschKincaid({
+        sentence: returnedCounts['sentenceCount'],
+        word: returnedCounts['totalValuableWords'],
+        syllable: returnedCounts['syllableCount']
+      });
+      if (fkScore >= 16) {
+        fkScore = 16;
+      }
+
+      //Find SMOG grade level
+      let sScore = smogFormula({
+        sentence: returnedCounts['sentenceCount'],
+        polysillabicWord: returnedCounts['polySyllableCount']
+      });
+      if (sScore >= 16) {
+        sScore = 16;
+      }
+
+      let scoreChart = new BarChart({
+        autoScale: true,
+        minimum: 1,
+        maximum: 16,
+        width: 400,
+        height: 300,
+        chartPadding: 20,
+        barSpacing: 10,
+        labelSize: 20,
+        container: document.getElementById('analysisDisplay')
+      });
+
+      scoreChart.data([[
+        {'name': 'Automated Readability', 'value': ariScore},
+        {'name': 'Coleman Liau', 'value': clScore},
+        {'name': 'Dale Chall', 'value': dcScore},
+        {'name': 'Flesch Kincaid', 'value': fkScore},
+        {'name': 'SMOG', 'value': sScore}
+      ]]
+      );
 
     },
   updated:
@@ -111,6 +157,79 @@ export default {
         {'name': 'Quality Index', 'value': qualityIndex},
         {'name': 'Quantity Index', 'value': quantityIndex},
         {'name': 'Duration Index', 'value': durationIndex}
+      ]]
+      );
+
+      //Find automated-readability grade level
+      let ariScore = automatedReadability({
+        sentence: returnedCounts['sentenceCount'],
+        word: returnedCounts['totalValuableWords'],
+        character: returnedCounts['totalValuableChars']
+      });
+      ariScore = Math.ceil(ariScore); //Formula rounds up to nearest int
+      if (ariScore >= 16) {
+        ariScore = 16;
+      }
+
+      //Find coleman-liau grade level
+      let clScore = colemanLiau({
+        sentence: returnedCounts['sentenceCount'],
+        word: returnedCounts['totalValuableWords'],
+        letter: returnedCounts['totalValuableChars']
+      });
+      if (clScore >= 16) {
+        clScore = 16;
+      }
+
+      //Find dale-chall grade level
+      let dcScore = daleChallFormula({
+        word: returnedCounts['totalValuableWords'],
+        sentence: returnedCounts['sentenceCount'],
+        difficultWord: returnedCounts['difficultWords']
+      });
+      dcScore = daleChallFormula.gradeLevel(dcScore);
+      if (dcScore[1] == Infinity) {
+        dcScore = dcScore[0];
+      }
+      else dcScore = dcScore[1];
+
+      //Find flecsh-kincaid grade level
+      let fkScore = fleschKincaid({
+        sentence: returnedCounts['sentenceCount'],
+        word: returnedCounts['totalValuableWords'],
+        syllable: returnedCounts['syllableCount']
+      });
+      if (fkScore >= 16) {
+        fkScore = 16;
+      }
+
+      //Find SMOG grade level
+      let sScore = smogFormula({
+        sentence: returnedCounts['sentenceCount'],
+        polysillabicWord: returnedCounts['polySyllableCount']
+      });
+      if (sScore >= 16) {
+        sScore = 16;
+      }
+
+      let scoreChart = new BarChart({
+        autoScale: true,
+        minimum: 1,
+        maximum: 16,
+        width: 400,
+        height: 300,
+        chartPadding: 20,
+        barSpacing: 10,
+        labelSize: 20,
+        container: document.getElementById('analysisDisplay')
+      });
+
+      scoreChart.data([[
+        {'name': 'Automated Readability', 'value': ariScore},
+        {'name': 'Coleman Liau', 'value': clScore},
+        {'name': 'Dale Chall', 'value': dcScore},
+        {'name': 'Flesch Kincaid', 'value': fkScore},
+        {'name': 'SMOG', 'value': sScore}
       ]]
       );
     }
