@@ -1,5 +1,5 @@
 <template>
-  <div id="app-header">
+  <div id="app">
     <h1 id="top-header">News API Application</h1>
     <div id="app-nav">
       <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString, 'articleTitle': titleString} }">Analysis</router-link>
@@ -85,12 +85,9 @@ export default {
       articleData: '',
       articleTitle: '',
       dataString: '',
-      titleString: '',
-      analysisString: '',
-      wordcloudString: ''
+      titleString: ''
     }
   },
-  // props: ['dataString', 'articleTitle'],
   methods: {
     findArticle (evt) {
       let self = this
@@ -117,16 +114,13 @@ export default {
             'apiKey': '6969dae1-7e3c-48df-87e2-9bc69d0fdd5d'
           }
         }, (response, body) => {
-          // USE ARTICLE ID TO GET ARTICLE TEXT
+          // fetch article id, then the article
           document.getElementById('UrlButton').innerText = 'Submit';
           let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
           self.titleString = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['title'];
+          // process article text and set up links
           self.articleData = analyze(articleText);
           self.dataString = JSON.stringify(self.articleData);
-          self.wordcloudString = '/wordcloud/' + JSON.stringify(self.articleData);
-          self.analysisString = '/analysis/' + JSON.stringify(self.articleData);
-          // console.log('dataString: ' + self.dataString);
-          // console.log(self);
           self.$router.push({name: 'Analysis', params: {articleData: self.dataString, articleTitle: self.titleString}});
         });
       }, function (response, body) {
@@ -140,7 +134,13 @@ export default {
 </script>
 
 <style>
-  #app-header {
+  html {
+    background-color: #0cd;
+  }
+  body {
+    background-color: transparent;
+  }
+  #app {
     font-size: 24px;
     font-style: normal;
     font-variant: normal;
@@ -153,7 +153,6 @@ export default {
     overflow: hidden;
     padding: 2em;
     height: 100%;
-    background-color: #0cd;
   }
   #app-nav {
     padding: 1em;
@@ -170,6 +169,7 @@ export default {
     border-radius: 20px;
     overflow: hidden;
     width: max-content;
+    margin: auto;
   }
   a {
     text-decoration: none;

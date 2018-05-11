@@ -146,9 +146,9 @@ export default {
     width: 100%;
   }
   #gradeDisplay, #statsDisplay {
-    width: 800px;
+    width: 750px;
     border: solid black 5px;
-    margin: 0.5em 1em 1em 1em;
+    margin: 0.5em 0 0 1em;
   }
   p {
     font-size: 150%;
