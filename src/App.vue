@@ -1,5 +1,5 @@
 <template>
-  <div id="app-header">
+  <div id="app">
     <h1 id="top-header">News API Application</h1>
     <div id="app-nav">
       <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString, 'articleTitle': titleString} }">Analysis</router-link>
@@ -17,7 +17,18 @@
 <script>
 import Analysis from './components/Analysis.vue'
 
+const daleChall = require('dale-chall');
+const syllable = require('syllable');
+
 function analyze (text) {
+  let sentences = text.split(/[.?!]\s/g); // Split on punctuation
+  let valuableChars = text.replace(/\W+/g, ''); // Only alphanumeric characters
+
+  let valuableWords = text.trim() // Remove whitespace at start and end.
+  valuableWords = valuableWords.toLowerCase(); // Lowercase all words
+  valuableWords = valuableWords.replace(/[ ]{2,}/gi, ' '); // Convert multiple whitespace values to a single space
+  valuableWords = valuableWords.split(' '); // Split on whitespace
+
   let words = text.split(/[^a-zA-Z0-9']/);
   let analysis = {};
   analysis.wordCounts = [];
@@ -38,7 +49,30 @@ function analyze (text) {
       analysis.totalWords--;
     }
   }
+
+  /*
+  Get number of 'difficult' words for dale-chall daleChall
+  Get syllable count for flesch–kincaid formula
+  Get count of words with >= 3 syllables for smog formula
+  */
+  analysis.difficultWords = 0;
+  analysis.syllableCount = 0;
+  analysis.polySyllableCount = 0;
+  for (var i = 0; i < valuableWords.length; i++) {
+    var numSyllables = syllable(valuableWords[i]);
+    analysis.syllableCount += numSyllables;
+    if (numSyllables >= 3) {
+      analysis.polySyllableCount++
+    }
+    if (daleChall.includes(valuableWords[i]) === false) {
+      analysis.difficultWords++;
+    }
+  }
+
   analysis.totalChars = text.length;
+  analysis.totalValuableChars = valuableChars.length;
+  analysis.sentenceCount = sentences.length;
+  analysis.totalValuableWords = valuableWords.length;
   return analysis;
 }
 
@@ -51,12 +85,9 @@ export default {
       articleData: '',
       articleTitle: '',
       dataString: '',
-      titleString: '',
-      analysisString: '',
-      wordcloudString: ''
+      titleString: ''
     }
   },
-  // props: ['dataString', 'articleTitle'],
   methods: {
     findArticle (evt) {
       let self = this
@@ -83,17 +114,13 @@ export default {
             'apiKey': '6969dae1-7e3c-48df-87e2-9bc69d0fdd5d'
           }
         }, (response, body) => {
-          // USE ARTICLE ID TO GET ARTICLE TEXT
+          // fetch article id, then the article
           document.getElementById('UrlButton').innerText = 'Submit';
           let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
           self.titleString = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['title'];
-          console.log(typeof self.titleString);
+          // process article text and set up links
           self.articleData = analyze(articleText);
           self.dataString = JSON.stringify(self.articleData);
-          self.wordcloudString = '/wordcloud/' + JSON.stringify(self.articleData);
-          self.analysisString = '/analysis/' + JSON.stringify(self.articleData);
-          // console.log('dataString: ' + self.dataString);
-          // console.log(self);
           self.$router.push({name: 'Analysis', params: {articleData: self.dataString, articleTitle: self.titleString}});
         });
       }, function (response, body) {
@@ -101,72 +128,74 @@ export default {
         console.log(response);
         console.log(body);
       });
-    },
-    test () {
-      console.log('Test success');
     }
   }
 }
 </script>
 
 <style>
-#app-header {
-font-size: 24px;
-font-style: normal;
-font-variant: normal;
-font-weight: 500;
-line-height: 26.4px;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-align: center;
-color: #111;
-overflow: hidden;
-padding: 2em;
-height: 100%;
-background-color: #92a8d1;
-}
-#app-nav {
-padding: 1em;
-margin: auto;
-}
-#top-header {
-font-size: 72px;
-font-weight: bold;
-color: #fff;
-}
-#app-body {
-background-color: #fff;
-padding: 2em;
-border-radius: 20px;
-margin-bottom: 40vh;
-overflow: hidden;
-}
-a {
-text-decoration: none;
-padding: 0.5em;
-margin: auto;
-color: #111;
-background: #80ced6;
-border-radius: 10px;
-}
-a:hover {
-color: #fff;
-}
-#UrlInput {
-  width: 80%;
-  margin: auto;
-  margin-top: 5em;
-  float: both;
-}
-#UrlButton:hover {
-color: #fff;
-}
-#UrlButton {
-  float: both;
-  margin: auto;
-  margin: 2em;
-  padding: 0.5em;
-  border-radius: 10px;
-  background: #80ced6;
-}
+  html {
+    background-color: #0cd;
+  }
+  body {
+    background-color: transparent;
+  }
+  #app {
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #111;
+    overflow: hidden;
+    padding: 2em;
+    height: 100%;
+  }
+  #app-nav {
+    padding: 1em;
+    margin: auto;
+  }
+  #top-header {
+    font-size: 72px;
+    font-weight: bold;
+    color: #fff;
+  }
+  #app-body {
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 20px;
+    overflow: hidden;
+    width: max-content;
+    margin: auto;
+  }
+  a {
+    text-decoration: none;
+    padding: 0.5em;
+    margin: auto;
+    color: #111;
+    background: #8dc;
+    border-radius: 10px;
+  }
+  a:hover {
+    color: #fff;
+  }
+  #UrlInput {
+    width: 800px;
+    margin: auto;
+    margin-top: 5em;
+    float: both;
+  }
+  #UrlButton:hover {
+    color: #fff;
+  }
+  #UrlButton {
+    float: both;
+    margin: 0.5em 1em 1em 1em;
+    padding: 0.5em;
+    border-radius: 10px;
+    background: #8dc;
+  }
 </style>
