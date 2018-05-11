@@ -51,18 +51,18 @@ export default {
       ]]
       );
 
-      //Find automated-readability grade level
+      // Find automated-readability grade level
       let ariScore = automatedReadability({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
         character: returnedCounts['totalValuableChars']
       });
-      ariScore = Math.ceil(ariScore); //Formula rounds up to nearest int
+      ariScore = Math.ceil(ariScore); // Formula rounds up to nearest int
       if (ariScore >= 16) {
         ariScore = 16;
       }
 
-      //Find coleman-liau grade level
+      // Find coleman-liau grade level
       let clScore = colemanLiau({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
@@ -72,19 +72,18 @@ export default {
         clScore = 16;
       }
 
-      //Find dale-chall grade level
+      // Find dale-chall grade level
       let dcScore = daleChallFormula({
         word: returnedCounts['totalValuableWords'],
         sentence: returnedCounts['sentenceCount'],
         difficultWord: returnedCounts['difficultWords']
       });
       dcScore = daleChallFormula.gradeLevel(dcScore);
-      if (dcScore[1] == Infinity) {
+      if (dcScore[1] === Infinity) {
         dcScore = dcScore[0];
-      }
-      else dcScore = dcScore[1];
+      } else dcScore = dcScore[1];
 
-      //Find flecsh-kincaid grade level
+      // Find flecsh-kincaid grade level
       let fkScore = fleschKincaid({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
@@ -94,7 +93,7 @@ export default {
         fkScore = 16;
       }
 
-      //Find SMOG grade level
+      // Find SMOG grade level
       let sScore = smogFormula({
         sentence: returnedCounts['sentenceCount'],
         polysillabicWord: returnedCounts['polySyllableCount']
@@ -123,7 +122,6 @@ export default {
         {'name': 'SMOG', 'value': sScore}
       ]]
       );
-
     },
   updated:
     function () {
@@ -160,18 +158,18 @@ export default {
       ]]
       );
 
-      //Find automated-readability grade level
+      // Find automated-readability grade level
       let ariScore = automatedReadability({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
         character: returnedCounts['totalValuableChars']
       });
-      ariScore = Math.ceil(ariScore); //Formula rounds up to nearest int
+      ariScore = Math.ceil(ariScore); // Formula rounds up to nearest int
       if (ariScore >= 16) {
         ariScore = 16;
       }
 
-      //Find coleman-liau grade level
+      // Find coleman-liau grade level
       let clScore = colemanLiau({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
@@ -181,19 +179,18 @@ export default {
         clScore = 16;
       }
 
-      //Find dale-chall grade level
+      // Find dale-chall grade level
       let dcScore = daleChallFormula({
         word: returnedCounts['totalValuableWords'],
         sentence: returnedCounts['sentenceCount'],
         difficultWord: returnedCounts['difficultWords']
       });
       dcScore = daleChallFormula.gradeLevel(dcScore);
-      if (dcScore[1] == Infinity) {
+      if (dcScore[1] === Infinity) {
         dcScore = dcScore[0];
-      }
-      else dcScore = dcScore[1];
+      } else dcScore = dcScore[1];
 
-      //Find flecsh-kincaid grade level
+      // Find flecsh-kincaid grade level
       let fkScore = fleschKincaid({
         sentence: returnedCounts['sentenceCount'],
         word: returnedCounts['totalValuableWords'],
@@ -203,7 +200,7 @@ export default {
         fkScore = 16;
       }
 
-      //Find SMOG grade level
+      // Find SMOG grade level
       let sScore = smogFormula({
         sentence: returnedCounts['sentenceCount'],
         polysillabicWord: returnedCounts['polySyllableCount']

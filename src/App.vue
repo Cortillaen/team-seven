@@ -21,13 +21,13 @@ const daleChall = require('dale-chall');
 const syllable = require('syllable');
 
 function analyze (text) {
-  let sentences = text.split(/[.?!]\s/g); //Split on punctuation
-  let valuableChars = text.replace(/\W+/g, ""); //Only alphanumeric characters
+  let sentences = text.split(/[.?!]\s/g); // Split on punctuation
+  let valuableChars = text.replace(/\W+/g, ''); // Only alphanumeric characters
 
-  let valuableWords = text.trim() //Remove whitespace at start and end.
-  valuableWords = valuableWords.toLowerCase(); //Lowercase all words
-  valuableWords = valuableWords.replace(/[ ]{2,}/gi," "); //Convert multiple whitespace values to a single space
-  valuableWords = valuableWords.split(' '); //Split on whitespace
+  let valuableWords = text.trim() // Remove whitespace at start and end.
+  valuableWords = valuableWords.toLowerCase(); // Lowercase all words
+  valuableWords = valuableWords.replace(/[ ]{2,}/gi, ' '); // Convert multiple whitespace values to a single space
+  valuableWords = valuableWords.split(' '); // Split on whitespace
 
   let words = text.split(/[^a-zA-Z0-9']/);
   let analysis = {};
@@ -64,7 +64,7 @@ function analyze (text) {
     if (numSyllables >= 3) {
       analysis.polySyllableCount++
     }
-    if (daleChall.includes(valuableWords[i]) == false) {
+    if (daleChall.includes(valuableWords[i]) === false) {
       analysis.difficultWords++;
     }
   }
