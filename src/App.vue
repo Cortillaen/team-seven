@@ -121,7 +121,6 @@ export default {
           document.getElementById('UrlButton').innerText = 'Submit';
           let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
           self.titleString = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['title'];
-          console.log(typeof self.titleString);
           self.articleData = analyze(articleText);
           self.dataString = JSON.stringify(self.articleData);
           self.wordcloudString = '/wordcloud/' + JSON.stringify(self.articleData);
@@ -135,72 +134,68 @@ export default {
         console.log(response);
         console.log(body);
       });
-    },
-    test () {
-      console.log('Test success');
     }
   }
 }
 </script>
 
 <style>
-#app-header {
-font-size: 24px;
-font-style: normal;
-font-variant: normal;
-font-weight: 500;
-line-height: 26.4px;
--webkit-font-smoothing: antialiased;
--moz-osx-font-smoothing: grayscale;
-text-align: center;
-color: #111;
-overflow: hidden;
-padding: 2em;
-height: 100%;
-background-color: #0cd;
-}
-#app-nav {
-padding: 1em;
-margin: auto;
-}
-#top-header {
-font-size: 72px;
-font-weight: bold;
-color: #fff;
-}
-#app-body {
-background-color: #fff;
-padding: 2em;
-border-radius: 20px;
-margin-bottom: 40vh;
-overflow: hidden;
-}
-a {
-text-decoration: none;
-padding: 0.5em;
-margin: auto;
-color: #111;
-background: #8dc;
-border-radius: 10px;
-}
-a:hover {
-color: #fff;
-}
-#UrlInput {
-  width: 80%;
-  margin: auto;
-  margin-top: 5em;
-  float: both;
-}
-#UrlButton:hover {
-color: #fff;
-}
-#UrlButton {
-  float: both;
-  margin: auto;
-  margin: 2em;
-  padding: 0.5em;
-  border-radius: 10px;
-  background: #8dc;
-}
+  #app-header {
+    font-size: 24px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+    line-height: 26.4px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #111;
+    overflow: hidden;
+    padding: 2em;
+    height: 100%;
+    background-color: #0cd;
+  }
+  #app-nav {
+    padding: 1em;
+    margin: auto;
+  }
+  #top-header {
+    font-size: 72px;
+    font-weight: bold;
+    color: #fff;
+  }
+  #app-body {
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 20px;
+    overflow: hidden;
+    width: max-content;
+  }
+  a {
+    text-decoration: none;
+    padding: 0.5em;
+    margin: auto;
+    color: #111;
+    background: #8dc;
+    border-radius: 10px;
+  }
+  a:hover {
+    color: #fff;
+  }
+  #UrlInput {
+    width: 800px;
+    margin: auto;
+    margin-top: 5em;
+    float: both;
+  }
+  #UrlButton:hover {
+    color: #fff;
+  }
+  #UrlButton {
+    float: both;
+    margin: 0.5em 1em 1em 1em;
+    padding: 0.5em;
+    border-radius: 10px;
+    background: #8dc;
+  }
 </style>
