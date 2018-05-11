@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 id="articleTitle">Article Title</h2>
-    <p>{{ articleTitle }}</p>
+    <p id="articleHeader">{{ articleTitle }}</p>
     <div id="statsDisplay">
       <h2 id="statsTitle">Article Statistics</h2>
     </div>
@@ -145,16 +145,19 @@ export default {
     margin: auto;
     width: 100%;
   }
+
   #gradeDisplay, #statsDisplay {
     width: 750px;
     border: solid black 5px;
     margin-bottom: 20px
   }
-  p {
+
+  #articleHeader {
     font-size: 150%;
     font-weight: bold;
     text-decoration: underline;
   }
+  
   h2 {
     margin-bottom: 15px
   }

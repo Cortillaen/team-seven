@@ -1,6 +1,7 @@
 <template>
   <div id="about-us">
-    <p>This page was designed around the idea that you should easily be able to discern the quality of an article based on simple criteria.  Below are five criteria used to measure the quality and difficulty of a piece of writing.</p>
+    <h2>About</h2>
+    <p id="aboutContents">This page was designed around the idea that you should easily be able to discern the quality of an article based on simple criteria.  Below are five criteria used to measure the quality and difficulty of a piece of writing.</p>
     <ul>
       <li><a href="https://en.wikipedia.org/wiki/Automated_readability_index" target="_blank">ARI: Automated Readability Index</a></li>
       <li><a href="https://en.wikipedia.org/wiki/Dale%E2%80%93Chall_readability_formula" target="_blank">Dale-Chall Readability Formula</a></li>
@@ -26,8 +27,10 @@ export default {
     padding: 0.5em;
     width: 800px
   }
-  p {
-    font-size: 150%;
+  #aboutContents {
+    font-size: 130%;
+    font-weight: normal;
+    text-decoration: none;
   }
   ul {
     text-align: left;

@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h2>{{ articleTitle }}</h2>
+    <h2 id="articleTitle">Article Title</h2>
+    <p id="articleHeader">{{ articleTitle }}</p>
     <canvas></canvas>
   </div>
 </template>
@@ -36,5 +37,12 @@ export default {
   canvas {
     height: 600px;
     width: 800px;
+    border: solid black 5px;
+    margin-bottom: 20px
+  }
+  #articleHeader {
+    font-size: 150%;
+    font-weight: bold;
+    text-decoration: underline;
   }
 </style>
