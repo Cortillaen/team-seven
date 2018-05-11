@@ -145,19 +145,16 @@ export default {
     margin: auto;
     width: 100%;
   }
-
   #gradeDisplay, #statsDisplay {
     width: 750px;
     border: solid black 5px;
     margin-bottom: 20px
   }
-
   #articleHeader {
     font-size: 150%;
     font-weight: bold;
     text-decoration: underline;
   }
-  
   h2 {
     margin-bottom: 15px
   }
