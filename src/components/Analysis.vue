@@ -148,11 +148,14 @@ export default {
   #gradeDisplay, #statsDisplay {
     width: 750px;
     border: solid black 5px;
-    margin: 0.5em 0 0 1em;
+    margin-bottom: 20px
   }
   p {
     font-size: 150%;
     font-weight: bold;
     text-decoration: underline;
+  }
+  h2 {
+    margin-bottom: 15px
   }
 </style>
