@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2 id="articleTitle">Article Title</h2>
-    <p id="articleHeader">{{ articleTitle }}</p>
+    <h2 id="articleTitle">{{ articleTitle }}</h2>
     <div id="statsDisplay">
       <h2 id="statsTitle">Article Statistics</h2>
     </div>
@@ -21,18 +20,23 @@ const fleschKincaid = require('flesch-kincaid');
 const smogFormula = require('smog-formula');
 
 export default {
-  props: ['articleData', 'articleTitle'],
+  props: ['articleData'],
+  data: function () {
+    return {
+      articleTitle: ''
+    }
+  },
   mounted:
     function () {
-      this.buildCharts();
-    },
-  updated:
-    function () {
+      if (this.$parent.dataString === '') {
+        this.$parent.dataString = this.articleData;
+      }
       this.buildCharts();
     },
   methods: {
     buildCharts () {
-      let returnedCounts = JSON.parse(this.articleData);
+      this.articleTitle = this.articleData.slice(0, this.articleData.indexOf('|'));
+      let returnedCounts = JSON.parse(this.articleData.slice(this.articleData.indexOf('|') + 1));
       let qualityIndex = 0;
       let quantityIndex = 0;
       let durationIndex = 0;
@@ -150,12 +154,9 @@ export default {
     border: solid black 5px;
     margin-bottom: 20px
   }
-  #articleHeader {
-    font-size: 150%;
+  #articleTitle {
     font-weight: bold;
     text-decoration: underline;
-  }
-  h2 {
-    margin-bottom: 15px
+    margin-bottom: 15px;
   }
 </style>

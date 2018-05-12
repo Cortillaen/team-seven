@@ -18,7 +18,7 @@ module.exports = {
       .click('button')
       .pause(3000)
       .assert.elementPresent('#statsDisplay')
-      .assert.containsText('p', 'Trump to project party unity at Indiana rally')
+      .assert.containsText('h2', 'Trump to project party unity at Indiana rally')
       .useXpath()
       .click('//a[2]')
       .assert.elementPresent('//canvas')
@@ -29,7 +29,7 @@ module.exports = {
       .click('//a[1]')
       .useCss()
       .assert.elementPresent('#statsDisplay')
-      .assert.containsText('p', 'Trump to project party unity at Indiana rally')
+      .assert.containsText('h2', 'Trump to project party unity at Indiana rally')
       .end()
   }
 }
