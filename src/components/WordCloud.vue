@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2 id="articleTitle">Article Title</h2>
-    <p id="articleHeader">{{ articleTitle }}</p>
+    <h2 id="articleTitle">{{ articleTitle }}</h2>
     <canvas></canvas>
   </div>
 </template>
@@ -10,7 +9,12 @@
 const wordcloud = require('wordcloud');
 
 export default {
-  props: ['articleData', 'articleTitle'],
+  props: ['articleData'],
+  data: function () {
+    return {
+      articleTitle: ''
+    }
+  },
   methods: {
     makeWordCloud (wordList) {
       let canvas = document.getElementsByTagName('canvas')[0];
@@ -24,11 +28,16 @@ export default {
   },
   mounted:
     function () {
-      this.makeWordCloud(JSON.parse(this.articleData)['wordCounts']);
+      if (this.$parent.dataString === '') {
+        this.$parent.dataString = this.articleData;
+      }
+      this.articleTitle = this.articleData.slice(0, this.articleData.indexOf('|'));
+      this.makeWordCloud(JSON.parse(this.articleData.slice(this.articleData.indexOf('|') + 1))['wordCounts']);
     },
   updated:
     function () {
-      this.makeWordCloud(JSON.parse(this.articleData)['wordCounts']);
+      this.articleTitle = this.articleData.slice(0, this.articleData.indexOf('|'));
+      this.makeWordCloud(JSON.parse(this.articleData.slice(this.articleData.indexOf('|') + 1))['wordCounts']);
     }
 }
 </script>
@@ -40,9 +49,9 @@ export default {
     border: solid black 5px;
     margin-bottom: 20px
   }
-  #articleHeader {
-    font-size: 150%;
+  #articleTitle {
     font-weight: bold;
     text-decoration: underline;
+    margin-bottom: 15px;
   }
 </style>

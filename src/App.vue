@@ -2,14 +2,14 @@
   <div id="app">
     <h1 id="top-header">News API Application</h1>
     <div id="app-nav">
-      <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString, 'articleTitle': titleString} }">Analysis</router-link>
-      <router-link :to="{ name: 'WordCloud', params: { 'articleData': dataString, 'articleTitle': titleString } }">Word Cloud</router-link>
+      <router-link :to="{ name: 'Analysis', params: { 'articleData': dataString } }">Analysis</router-link>
+      <router-link :to="{ name: 'WordCloud', params: { 'articleData': dataString } }">Word Cloud</router-link>
       <router-link :to="{ name: 'About' }">About</router-link>
     </div>
     <div id="app-body">
       <input id="UrlInput" type="Text" placeholder="Enter Url Here" />
       <button v-on:click="findArticle" id="UrlButton">Submit</button>
-      <router-view/>
+      <router-view :key="$route.fullPath" />
     </div>
   </div>
 </template>
@@ -82,10 +82,7 @@ export default {
   },
   data: function () {
     return {
-      articleData: '',
-      articleTitle: '',
-      dataString: '',
-      titleString: ''
+      dataString: ''
     }
   },
   methods: {
@@ -117,16 +114,16 @@ export default {
           // fetch article id, then the article
           document.getElementById('UrlButton').innerText = 'Submit';
           let articleText = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['body'];
-          self.titleString = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['title'];
+          let titleString = JSON.parse(body.toJSON()['body'].slice(14, -1))[articleID]['info']['title'];
           // process article text and set up links
-          self.articleData = analyze(articleText);
-          self.dataString = JSON.stringify(self.articleData);
-          self.$router.push({name: 'Analysis', params: {articleData: self.dataString, articleTitle: self.titleString}});
+          let articleData = analyze(articleText);
+          self.dataString = titleString + '|' + JSON.stringify(articleData);
+          self.$router.push({name: 'Analysis', params: {'articleData': self.dataString}});
         });
       }, function (response, body) {
-        console.log('ERROR');
-        console.log(response);
-        console.log(body);
+        console.err('ERROR');
+        console.err(response);
+        console.err(body);
       });
     }
   }
